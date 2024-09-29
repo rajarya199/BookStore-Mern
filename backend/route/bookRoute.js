@@ -25,4 +25,34 @@ router.post('/add',async(request,response)=>{
         response.status(500).send({message:err.message})
     }
 })
+
+// route for get  all book frm db
+router.get('/all',async(request,response)=>{
+    try{ 
+        const books= await Book.find({})
+        return response.status(200).json({
+            count:books.length,
+            data:books
+        })
+
+    }
+    catch (error){
+        console.log(error)
+        response.status(500).send({message:error.message});
+    }
+})
+
+//route for Get One Book from database by id
+router.get('/bookdetail:id', async (request, response) => {
+    try {
+      const { id } = request.params;
+  
+      const book = await Book.findById(id);
+  
+      return response.status(200).json(book);
+    } catch (error) {
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+    }
+  });
 export default router
