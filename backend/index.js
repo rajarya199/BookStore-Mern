@@ -1,9 +1,13 @@
 import express from 'express';
 import { PORT } from './config.js';
 import mongoose from "mongoose";
+import bookRoute from './route/bookRoute.js'
 import { mongoURL } from "./config.js";
 
 const app=express();
+
+//middleware for prasing request body
+app.use(express.json());
 
  mongoose.connect(mongoURL)
 .then(()=>{
@@ -12,6 +16,10 @@ const app=express();
 .catch((error)=>{
     console.log(error)
 })
+
+
+app.use('/books',bookRoute)
+
 
 app.get('/',(request,response)=>{
     console.log(request)
