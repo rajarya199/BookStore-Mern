@@ -43,7 +43,7 @@ router.get('/all',async(request,response)=>{
 })
 
 //route for Get One Book from database by id
-router.get('/bookdetail:id', async (request, response) => {
+router.get('/detail/:id', async (request, response) => {
     try {
       const { id } = request.params;
   
@@ -55,4 +55,28 @@ router.get('/bookdetail:id', async (request, response) => {
       response.status(500).send({ message: error.message });
     }
   });
+
+  router.put('/update/:id',async(request,response)=>{
+    try{
+        if(  !request.body.title ||
+            !request.body.author ||
+            ! request.body.publishYear
+        )
+        {
+            return response.status(400).send({message:'Send all required feild: title,author,published year'})
+
+        }
+        const{id}=request.params
+        const result = await Book.findByIdAndUpdate(id, request.body);
+        if(!result){
+            return response.status(404).json({message:'book not found'})
+        }
+        return response.status(200).send({messsage:'book updated succesfully'})
+    }
+    catch (err){
+        console.log(err)
+        response.status(500).send({message:err.message})
+
+    }
+  })
 export default router
