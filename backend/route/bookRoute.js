@@ -79,7 +79,7 @@ router.get('/detail/:id', async (request, response) => {
 
     }
   })
-  router.delete('/:id', async (request, response) => {
+  router.delete('/delete/:id', async (request, response) => {
     try {
       const { id } = request.params;
   
